@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  counterapi:
+    image: counter
+    build:
+      context: ./services/counter
+    ports:
+      - "8081:80"
+    depends_on:
+        - mssql
+  userapi:
+    image: user
+    build:
+      context: ./services/user
+    ports:
+      - "8082:80"
+    depends_on:
+        - mssql
+  mssql:
+    image: "microsoft/mssql-server-linux"
+    expose:
+      - "1433"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    container_name: rabbitmq

@@ -1,0 +1,29 @@
+use master;
+create database [db.counter];
+GO
+use [db.counter];
+CREATE TABLE [dbo].[Counters](
+	[CounterId] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[Number] [int] NOT NULL,
+ CONSTRAINT [PK_Counters] PRIMARY KEY CLUSTERED 
+(
+	[CounterId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+CREATE TABLE [dbo].[Users](
+	[UserId] [int] IDENTITY(1,1) NOT NULL,
+	[CountNumber] [int] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+INSERT INTO [dbo].[Counters]([UserId], [Number]) VALUES(1,1)
+INSERT INTO [dbo].[Counters]([UserId], [Number]) VALUES(1,2)
+
+INSERT INTO [dbo].[Users]([CountNumber]) VALUES(2)
+GO
+

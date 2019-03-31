@@ -1,0 +1,14 @@
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/user.deps.json
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/user.runtimeconfig.json
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/user.runtimeconfig.dev.json
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/user.dll
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/user.pdb
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.csprojAssemblyReference.cache
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.csproj.CoreCompileInputs.cache
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.RazorAssemblyInfo.cache
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.RazorAssemblyInfo.cs
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.AssemblyInfoInputs.cache
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.AssemblyInfo.cs
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.RazorTargetAssemblyInfo.cache
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.dll
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.pdb
