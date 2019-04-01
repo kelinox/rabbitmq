@@ -26,35 +26,38 @@ namespace user
         {
             var connection = @"Server=mssql;Database=master;User=sa;Password=Your_password123;";
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<CounterEventHandler>();
 
-            services.AddMassTransit(x => 
+            Console.Out.WriteLine(Configuration["RabbitMQHostName"]);
+
+            services.AddMassTransit(x =>
             {
                 x.AddConsumer<CounterEventHandler>();
 
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg => 
+                x.AddBus(provider => 
                 {
-                    var host = cfg.Host("localhost", "/",  h => 
+                    var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
                     {
-                        h.Username("guest");
-                        h.Password("guest");
+                        var host = cfg.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), h =>
+                        {
+                            h.Username("guest");
+                            h.Password("guest");
+                        });
+
+                        cfg.ReceiveEndpoint(host, "counter", ep =>
+                        {
+                            ep.PrefetchCount = 16;
+                            ep.UseMessageRetry(m => m.Interval(2, 100));
+
+                            ep.ConfigureConsumer<CounterEventHandler>(provider);
+                        });
                     });
-
-                    cfg.ExchangeType = ExchangeType.Fanout;
-
-                    Console.Out.WriteLine("STARTUP USER : " + host.Settings.HostAddress.ToString());
-
-                    cfg.ReceiveEndpoint(host, "counters", ep => 
-                    {
-                        ep.PrefetchCount = 16;
-                        ep.UseMessageRetry(m => m.Interval(2, 100));
-
-                        ep.ConfigureConsumer<CounterEventHandler>(provider);
-                    });
-                }));
+                    bus.Start();
+                    return bus;
+                });
             });
         }
 
@@ -78,7 +81,7 @@ namespace user
             var bus = app.ApplicationServices.GetService<IBusControl>();
             bus.Start();
         }
-        
+
 
         private static void UpdateDatabase(IApplicationBuilder app)
         {

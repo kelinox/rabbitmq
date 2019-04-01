@@ -9,6 +9,7 @@ services:
       - "8081:80"
     depends_on:
         - mssql
+        - rabbitmq
   userapi:
     image: user
     build:
@@ -17,6 +18,7 @@ services:
       - "8082:80"
     depends_on:
         - mssql
+        - rabbitmq
   mssql:
     image: "microsoft/mssql-server-linux"
     expose:
@@ -33,3 +35,4 @@ services:
       - "5672:5672"
       - "15672:15672"
     container_name: rabbitmq
+    hostname: my-rabbit

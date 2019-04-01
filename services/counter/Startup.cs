@@ -41,15 +41,11 @@ namespace counter
             {
                 return Bus.Factory.CreateUsingRabbitMq(sbc =>
                 {
-                    var host = sbc.Host(new Uri("rabbitmq://localhost"), h =>
+                    var host = sbc.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), h =>
                     {
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    
-                    Console.Out.WriteLine("STARTUP COUNTER : " + host.Settings.ToString());
-
-                    sbc.ExchangeType = ExchangeType.Fanout;
                 });
             })
             .As<IBusControl>()
