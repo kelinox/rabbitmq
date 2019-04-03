@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GreenPipes;
+using MassTransit;
 using Microservices.Services.Users.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace user.Controllers
 {
@@ -14,7 +17,7 @@ namespace user.Controllers
     {
         private readonly UserContext _context;
 
-        public UsersController(UserContext context) 
+        public UsersController(UserContext context)
         {
             _context = context;
         }

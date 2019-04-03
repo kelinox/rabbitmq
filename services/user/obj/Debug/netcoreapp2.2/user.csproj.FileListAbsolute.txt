@@ -12,3 +12,6 @@
 /home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.RazorTargetAssemblyInfo.cache
 /home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.dll
 /home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.pdb
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/counter.dll
+/home/lucas/Documents/netcore/microservices/services/user/bin/Debug/netcoreapp2.2/counter.pdb
+/home/lucas/Documents/netcore/microservices/services/user/obj/Debug/netcoreapp2.2/user.csproj.CopyComplete

@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
+using Microservices.Services.Core.Entities;
 using Microservices.Services.Counters.Infrastructure;
-using Microservices.Services.Counters.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,8 +44,6 @@ namespace counter.Controllers
             var res = await _context.Counters.FirstOrDefaultAsync(c => c.CounterId == counter.CounterId);
 
             var url = new Uri($"rabbitmq://{_config.GetValue<string>("RabbitMQHostName")}/counter");
-
-            Console.Out.WriteLine(url);
 
             var endpoint = await _bus.GetSendEndpoint(url);
             await endpoint.Send<Counter>(res);

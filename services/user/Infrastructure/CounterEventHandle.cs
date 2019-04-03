@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
-using Microservices.Services.Jobs.Models;
+using Microservices.Services.Core.Entities;
 using Microservices.Services.Users.Infrastructure;
 
 public class CounterEventHandler : IConsumer<Counter>

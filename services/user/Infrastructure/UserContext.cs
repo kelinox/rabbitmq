@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microservices.Service.UserApi.Models;
-using Microservices.Services.Jobs.Models;
 
 namespace Microservices.Services.Users.Infrastructure
 {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microservices.Services.Counters.Models;
+using Microservices.Services.Core.Entities;
 
 namespace Microservices.Services.Counters.Infrastructure
 {

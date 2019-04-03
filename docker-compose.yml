@@ -4,7 +4,8 @@ services:
   counterapi:
     image: counter
     build:
-      context: ./services/counter
+      context: ./services
+      dockerfile: counter.Dockerfile
     ports:
       - "8081:80"
     depends_on:
@@ -13,7 +14,8 @@ services:
   userapi:
     image: user
     build:
-      context: ./services/user
+      context: ./services
+      dockerfile: user.Dockerfile
     ports:
       - "8082:80"
     depends_on:

@@ -13228,7 +13228,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "Autofac.Extensions.DependencyInjection",
+      "Autofac.Extensions.DependencyInjection >= 4.4.0",
       "MassTransit >= 5.3.2",
       "MassTransit.RabbitMQ >= 5.3.2",
       "Microsoft.AspNetCore.App >= 2.2.3",
@@ -13280,7 +13280,7 @@
         "dependencies": {
           "Autofac.Extensions.DependencyInjection": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[4.4.0, )"
           },
           "MassTransit": {
             "target": "Package",

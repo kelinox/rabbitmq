@@ -4902,6 +4902,23 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "counter/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "dependencies": {
+          "Autofac.Extensions.DependencyInjection": "4.4.0",
+          "MassTransit": "5.3.2",
+          "MassTransit.RabbitMQ": "5.3.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.2.3",
+          "RabbitMQ.Client": "5.1.0"
+        },
+        "compile": {
+          "bin/placeholder/counter.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/counter.dll": {}
+        }
       }
     }
   },
@@ -13312,6 +13329,11 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "counter/1.0.0": {
+      "type": "project",
+      "path": "../counter/counter.csproj",
+      "msbuildProject": "../counter/counter.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -13323,7 +13345,8 @@
       "Microsoft.AspNetCore.App >= 2.2.3",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.2.3",
-      "Microsoft.NETCore.App >= 2.2.0"
+      "Microsoft.NETCore.App >= 2.2.0",
+      "counter >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -13353,7 +13376,11 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/lucas/Documents/netcore/microservices/services/counter/counter.csproj": {
+              "projectPath": "/home/lucas/Documents/netcore/microservices/services/counter/counter.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

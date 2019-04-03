@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using MassTransit;
+using MassTransit.Util;
 using Microservices.Services.Counters.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,7 @@ namespace counter
                         h.Username("guest");
                         h.Password("guest");
                     });
+                    sbc.PurgeOnStartup = true;
                 });
             })
             .As<IBusControl>()
@@ -60,7 +62,7 @@ namespace counter
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +77,19 @@ namespace counter
             app.UseHttpsRedirection();
             app.UseMvc();
             UpdateDatabase(app);
+
+            var bus = app.ApplicationServices.GetService<IBusControl>();
+            var busHandle = TaskUtil.Await(() =>
+            {
+                Console.Out.WriteLine("BUS STARTED COUNTER");
+                return bus.StartAsync();
+            });
+
+            lifetime.ApplicationStopping.Register(() =>
+            {
+                Console.Out.WriteLine("BUS STOPPED COUNTER");
+                busHandle.Stop();
+            });
         }
 
         private static void UpdateDatabase(IApplicationBuilder app)

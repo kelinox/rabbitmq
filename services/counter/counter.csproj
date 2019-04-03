@@ -17,6 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
+    <ProjectReference Include="../core/core.csproj"/>
   </ItemGroup>
 
 </Project>

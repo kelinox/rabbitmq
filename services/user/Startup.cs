@@ -1,6 +1,9 @@
 ﻿using System;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using GreenPipes;
 using MassTransit;
+using MassTransit.Util;
 using Microservices.Services.Users.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,47 +25,48 @@ namespace user
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+
             var connection = @"Server=mssql;Database=master;User=sa;Password=Your_password123;";
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddScoped<CounterEventHandler>();
-
             Console.Out.WriteLine(Configuration["RabbitMQHostName"]);
 
-            services.AddMassTransit(x =>
+            var builder = new ContainerBuilder();
+            builder.Register(c =>
             {
-                x.AddConsumer<CounterEventHandler>();
-
-                x.AddBus(provider => 
+                return Bus.Factory.CreateUsingRabbitMq(sbc =>
                 {
-                    var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
+                    var host = sbc.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), h =>
                     {
-                        var host = cfg.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), h =>
-                        {
-                            h.Username("guest");
-                            h.Password("guest");
-                        });
-
-                        cfg.ReceiveEndpoint(host, "counter", ep =>
-                        {
-                            ep.PrefetchCount = 16;
-                            ep.UseMessageRetry(m => m.Interval(2, 100));
-
-                            ep.ConfigureConsumer<CounterEventHandler>(provider);
-                        });
+                        h.Username("guest");
+                        h.Password("guest");
                     });
-                    bus.Start();
-                    return bus;
+
+                    sbc.ReceiveEndpoint(host, "counter", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(m => m.Interval(2, 100));
+
+                        ep.Consumer<CounterEventHandler>();
+                    });
                 });
-            });
+            })
+            .As<IBusControl>()
+            .As<IBus>()
+            .As<IPublishEndpoint>()
+            .SingleInstance();
+
+            builder.Populate(services);
+            IContainer container = builder.Build();
+            return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -79,7 +83,15 @@ namespace user
             UpdateDatabase(app);
 
             var bus = app.ApplicationServices.GetService<IBusControl>();
-            bus.Start();
+            var busHandle = TaskUtil.Await(() =>
+            {
+                return bus.StartAsync();
+            });
+
+            lifetime.ApplicationStopping.Register(() =>
+            {
+                busHandle.Stop();
+            });
         }
 
 
