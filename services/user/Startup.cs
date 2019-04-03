@@ -4,6 +4,8 @@ using Autofac.Extensions.DependencyInjection;
 using GreenPipes;
 using MassTransit;
 using MassTransit.Util;
+using Microservices.Services.Core.Repositories;
+using Microservices.Services.Infrastructure.Repositories;
 using Microservices.Services.Users.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +29,7 @@ namespace user
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserRepository, UserRepository>(); 
 
             var connection = @"Server=mssql;Database=master;User=sa;Password=Your_password123;";
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
