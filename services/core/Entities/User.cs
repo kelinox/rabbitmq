@@ -1,4 +1,4 @@
-namespace Microservices.Services.Infrastructure.Entities
+namespace Microservices.Services.Core.Entities
 {
     public class User
     {

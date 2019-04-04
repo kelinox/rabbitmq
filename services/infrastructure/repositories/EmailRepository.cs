@@ -3,43 +3,37 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
-using Microservices.Services.Infrastructure.Entities;
+using Microservices.Services.Core.Entities;
+using Microservices.Services.Core.Providers;
+using Microservices.Services.Core.Repositories;
 using Microservices.Services.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 
-namespace Microservices.Services.Core.Repositories
+namespace Microservices.Services.Infrastructure.Repositories
 {
     public class EmailRepository : IEmailRepository
     {
-        private readonly IConfiguration _config;
+        private readonly IDbProvider _dbProvider;
 
-        public EmailRepository(IConfiguration config)
+        public EmailRepository(IDbProvider dbProvider)
         {
-            _config = config;
-        }
-
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DapperConnectionString"));
-            }
+            _dbProvider = dbProvider;
         }
 
         public async Task<Email> AddAsync(Email email)
         {
-            using(IDbConnection conn = Connection)
+            using(IDbConnection conn = _dbProvider.Connection)
             {
-                string sql = "INSERT INTO Email(To, From, Body) VALUES(@To, @From, @Body)";
+                string sql = "INSERT INTO [dbo].[Emails](To, From, Body) VALUES(@To, @From, @Body)";
                 return await conn.ExecuteScalarAsync<Email>(sql, email);
             }
         }
 
         public async Task<IEnumerable<Email>> GetAllAsync()
         {
-            using (IDbConnection conn = Connection)
+            using (IDbConnection conn = _dbProvider.Connection)
             {
-                string query = "SELECT * FROM Email";
+                string query = "SELECT * FROM [dbo].[Emails]";
                 conn.Open();
                 var result = await conn.QueryAsync<Email>(query);
                 return result;

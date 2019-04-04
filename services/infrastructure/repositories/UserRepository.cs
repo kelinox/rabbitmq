@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Microservices.Services.Infrastructure.Entities;
+using Microservices.Services.Core.Entities;
 using Microservices.Services.Infrastructure.Repositories;
 
-namespace Microservices.Services.Core.Repositories
+namespace Microservices.Services.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository //: IUserRepository
     {
         public Task<User> GetAll()
         {

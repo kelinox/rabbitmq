@@ -1,0 +1,14 @@
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.csprojAssemblyReference.cache
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.csproj.CoreCompileInputs.cache
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.AssemblyInfoInputs.cache
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.AssemblyInfo.cs
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/infrastructure.deps.json
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/infrastructure.runtimeconfig.json
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/infrastructure.runtimeconfig.dev.json
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/infrastructure.dll
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/infrastructure.pdb
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.dll
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.pdb
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/core.dll
+/home/lucas/Documents/netcore/microservices/services/infrastructure/bin/Debug/netcoreapp2.2/core.pdb
+/home/lucas/Documents/netcore/microservices/services/infrastructure/obj/Debug/netcoreapp2.2/infrastructure.csproj.CopyComplete

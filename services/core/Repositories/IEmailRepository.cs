@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microservices.Services.Infrastructure.Entities;
+using Microservices.Services.Core.Entities;
 
-namespace Microservices.Services.Infrastructure.Repositories
+namespace Microservices.Services.Core.Repositories
 {
     public interface IEmailRepository
     {

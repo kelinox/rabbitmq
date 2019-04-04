@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microservices.Services.Core.Providers;
 using Microservices.Services.Core.Repositories;
+using Microservices.Services.Core.Services;
+using Microservices.Services.Infrastructure.Providers;
 using Microservices.Services.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +30,9 @@ namespace email
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IDbProvider, DbProvider>();
             services.AddTransient<IEmailRepository, EmailRepository>();
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

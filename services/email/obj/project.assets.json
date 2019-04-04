@@ -4775,6 +4775,33 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "dependencies": {
+          "Dapper": "1.60.6"
+        },
+        "compile": {
+          "bin/placeholder/core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/core.dll": {}
+        }
+      },
+      "infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.2",
+        "dependencies": {
+          "Dapper": "1.60.6",
+          "core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/infrastructure.dll": {}
+        }
       }
     }
   },
@@ -13034,15 +13061,27 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "core/1.0.0": {
+      "type": "project",
+      "path": "../core/core.csproj",
+      "msbuildProject": "../core/core.csproj"
+    },
+    "infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../infrastructure/infrastructure.csproj",
+      "msbuildProject": "../infrastructure/infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "Dapper",
+      "Dapper >= 1.60.6",
       "MassTransit.AspNetCore >= 5.3.2",
       "Microsoft.AspNetCore.App >= 2.2.3",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
-      "Microsoft.NETCore.App >= 2.2.0"
+      "Microsoft.NETCore.App >= 2.2.0",
+      "core >= 1.0.0",
+      "infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -13072,7 +13111,14 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/lucas/Documents/netcore/microservices/services/core/core.csproj": {
+              "projectPath": "/home/lucas/Documents/netcore/microservices/services/core/core.csproj"
+            },
+            "/home/lucas/Documents/netcore/microservices/services/infrastructure/infrastructure.csproj": {
+              "projectPath": "/home/lucas/Documents/netcore/microservices/services/infrastructure/infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -13086,7 +13132,7 @@
         "dependencies": {
           "Dapper": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[1.60.6, )"
           },
           "MassTransit.AspNetCore": {
             "target": "Package",

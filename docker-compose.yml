@@ -1,30 +1,40 @@
 version: '3'
 
 services:
-  counterapi:
-    image: counter
+  emailapi:
+    image: email
     build:
       context: ./services
-      dockerfile: counter.Dockerfile
+      dockerfile: email.Dockerfile
     ports:
       - "8081:80"
     depends_on:
         - mssql
-        - rabbitmq
-  userapi:
-    image: user
-    build:
-      context: ./services
-      dockerfile: user.Dockerfile
-    ports:
-      - "8082:80"
-    depends_on:
-        - mssql
-        - rabbitmq
+  # counterapi:
+  #   image: counter
+  #   build:
+  #     context: ./services
+  #     dockerfile: counter.Dockerfile
+  #   ports:
+  #     - "8081:80"
+  #   depends_on:
+  #       - mssql
+  #       - rabbitmq
+  # userapi:
+  #   image: user
+  #   build:
+  #     context: ./services
+  #     dockerfile: user.Dockerfile
+  #   ports:
+  #     - "8082:80"
+  #   depends_on:
+  #       - mssql
+  #       - rabbitmq
   mssql:
     image: "microsoft/mssql-server-linux"
-    expose:
-      - "1433"
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"

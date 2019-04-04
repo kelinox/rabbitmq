@@ -1,0 +1,6 @@
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.csprojAssemblyReference.cache
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.csproj.CoreCompileInputs.cache
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.RazorAssemblyInfo.cache
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.RazorAssemblyInfo.cs
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.AssemblyInfoInputs.cache
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.AssemblyInfo.cs
