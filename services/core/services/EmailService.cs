@@ -18,5 +18,10 @@ namespace Microservices.Services.Core.Services
         {
             return await _emailRepository.GetAllAsync();
         }
+
+        public async Task<int> SendEmailNewUser(User user)
+        {
+            return await _emailRepository.SendEmailNewUser(user);
+        }
     }
 }

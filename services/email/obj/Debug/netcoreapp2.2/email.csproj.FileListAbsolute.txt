@@ -4,3 +4,16 @@
 /home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.RazorAssemblyInfo.cs
 /home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.AssemblyInfoInputs.cache
 /home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.AssemblyInfo.cs
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/email.deps.json
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/email.runtimeconfig.json
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/email.runtimeconfig.dev.json
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/email.dll
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/email.pdb
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/core.dll
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/infrastructure.dll
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/core.pdb
+/home/lucas/Documents/netcore/microservices/services/email/bin/Debug/netcoreapp2.2/infrastructure.pdb
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.RazorTargetAssemblyInfo.cache
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.csproj.CopyComplete
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.dll
+/home/lucas/Documents/netcore/microservices/services/email/obj/Debug/netcoreapp2.2/email.pdb

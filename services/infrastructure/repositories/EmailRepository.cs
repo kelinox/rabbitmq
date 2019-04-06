@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -19,24 +20,34 @@ namespace Microservices.Services.Infrastructure.Repositories
         {
             _dbProvider = dbProvider;
         }
-
-        public async Task<Email> AddAsync(Email email)
-        {
-            using(IDbConnection conn = _dbProvider.Connection)
-            {
-                string sql = "INSERT INTO [dbo].[Emails](To, From, Body) VALUES(@To, @From, @Body)";
-                return await conn.ExecuteScalarAsync<Email>(sql, email);
-            }
-        }
-
+        
         public async Task<IEnumerable<Email>> GetAllAsync()
         {
+            string query = "SELECT * FROM [dbo].[Emails]";
             using (IDbConnection conn = _dbProvider.Connection)
             {
-                string query = "SELECT * FROM [dbo].[Emails]";
                 conn.Open();
                 var result = await conn.QueryAsync<Email>(query);
                 return result;
+            }
+        }
+
+        public async Task<int> SendEmailNewUser(User user)
+        {
+            string query = @"INSERT INTO [dbo].[Emails]([From], [To], [Body], [UserId])
+                                VALUES(@To, @From, @Body, @UserId)
+                                SELECT CAST(SCOPE_IDENTITY() AS INT)";
+            using (IDbConnection conn = _dbProvider.Connection)
+            {
+                conn.Open();
+                return await conn.QueryFirstAsync<int>(query, new
+                {
+                    To = user.Email,
+                    From = "test",
+                    Body = "test body",
+                    UserId = user.Id
+                });
+
             }
         }
     }

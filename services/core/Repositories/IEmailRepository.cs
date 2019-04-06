@@ -7,6 +7,6 @@ namespace Microservices.Services.Core.Repositories
     public interface IEmailRepository
     {
         Task<IEnumerable<Email>> GetAllAsync();
-        Task<Email> AddAsync(Email email);
+        Task<int> SendEmailNewUser(User user);
     }
 }

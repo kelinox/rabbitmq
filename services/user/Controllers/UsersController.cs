@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
-using Microservices.Services.Users.Infrastructure;
+using Microservices.Services.Core.Entities;
+using Microservices.Services.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace user.Controllers
@@ -15,43 +17,35 @@ namespace user.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly IUserService _userService;
+        private readonly IBusControl _bus;
+        private readonly IConfiguration _config;
 
-        public UsersController(UserContext context)
+        public UsersController(IUserService userService, IBusControl bus, IConfiguration config)
         {
-            _context = context;
+            _userService = userService;
+            _bus = bus;
+            _config = config;
         }
 
-        // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IEnumerable<User>> Get()
         {
-            return Ok(await _context.Users.ToListAsync());
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
+            return await _userService.GetAll();
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<User> Post(User user)
         {
-        }
+            User res = await _userService.AddNewUser(user);
+        
+            Uri uri = new Uri($"rabbitmq://{_config.GetValue<string>("RabbitMQHostName")}/create_user");
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            var endPoint = await _bus.GetSendEndpoint(uri);
+            await endPoint.Send(res);
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return res;
         }
     }
 }

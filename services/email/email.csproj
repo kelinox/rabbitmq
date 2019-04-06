@@ -7,7 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="MassTransit" Version="5.3.2" />
     <PackageReference Include="MassTransit.AspNetCore" Version="5.3.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <ProjectReference Include="..\core\core.csproj" />

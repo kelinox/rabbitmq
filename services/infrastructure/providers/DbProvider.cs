@@ -19,18 +19,5 @@ namespace Microservices.Services.Infrastructure.Providers
         {
             get { return new SqlConnection(_config.GetConnectionString("DapperConnectionString")); }
         }
-
-        void IDbProvider.CreateDatabase()
-        {
-            using(IDbConnection conn = Connection)
-            {
-                string sql = @"CREATE TABLE Email(
-                    Id int identity(1,1) not null,
-                    To nvarchar(40) not null,
-                    From nvarchar(40) not null,
-                    Body text not null);";
-                conn.ExecuteAsync(sql);
-            }
-        }
     }
 }

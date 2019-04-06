@@ -7,29 +7,20 @@ services:
       context: ./services
       dockerfile: email.Dockerfile
     ports:
+      - "8082:80"
+    depends_on:
+        - mssql
+        - rabbitmq
+  userapi:
+    image: user
+    build:
+      context: ./services
+      dockerfile: user.Dockerfile
+    ports:
       - "8081:80"
     depends_on:
         - mssql
-  # counterapi:
-  #   image: counter
-  #   build:
-  #     context: ./services
-  #     dockerfile: counter.Dockerfile
-  #   ports:
-  #     - "8081:80"
-  #   depends_on:
-  #       - mssql
-  #       - rabbitmq
-  # userapi:
-  #   image: user
-  #   build:
-  #     context: ./services
-  #     dockerfile: user.Dockerfile
-  #   ports:
-  #     - "8082:80"
-  #   depends_on:
-  #       - mssql
-  #       - rabbitmq
+        - rabbitmq
   mssql:
     image: "microsoft/mssql-server-linux"
     build:

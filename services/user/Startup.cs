@@ -1,19 +1,17 @@
 ﻿using System;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using GreenPipes;
 using MassTransit;
 using MassTransit.Util;
+using Microservices.Services.Core.Providers;
 using Microservices.Services.Core.Repositories;
+using Microservices.Services.Core.Services;
+using Microservices.Services.Infrastructure.Providers;
 using Microservices.Services.Infrastructure.Repositories;
-using Microservices.Services.Users.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
 
 namespace user
 {
@@ -27,45 +25,24 @@ namespace user
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUserRepository, UserRepository>(); 
+            services.AddTransient<IDbProvider, DbProvider>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
 
-            var connection = @"Server=mssql;Database=master;User=sa;Password=Your_password123;";
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);            
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMassTransit(x => {
 
-            Console.Out.WriteLine(Configuration["RabbitMQHostName"]);
-
-            var builder = new ContainerBuilder();
-            builder.Register(c =>
-            {
-                return Bus.Factory.CreateUsingRabbitMq(sbc =>
-                {
-                    var host = sbc.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg => {
+                    
+                    var host = cfg.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), hostConfig => {
+                        hostConfig.Username("guest");
+                        hostConfig.Password("guest");
                     });
-
-                    sbc.ReceiveEndpoint(host, "counter", ep =>
-                    {
-                        ep.PrefetchCount = 16;
-                        ep.UseMessageRetry(m => m.Interval(2, 100));
-
-                        ep.Consumer<CounterEventHandler>();
-                    });
-                });
-            })
-            .As<IBusControl>()
-            .As<IBus>()
-            .As<IPublishEndpoint>()
-            .SingleInstance();
-
-            builder.Populate(services);
-            IContainer container = builder.Build();
-            return new AutofacServiceProvider(container);
+                }));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,9 +58,7 @@ namespace user
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
-            UpdateDatabase(app);
 
             var bus = app.ApplicationServices.GetService<IBusControl>();
             var busHandle = TaskUtil.Await(() =>
@@ -95,21 +70,6 @@ namespace user
             {
                 busHandle.Stop();
             });
-        }
-
-
-        private static void UpdateDatabase(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>()
-                .CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<UserContext>())
-                {
-                    if (!context.Database.EnsureCreated())
-                        context.Database.Migrate();
-                }
-            }
         }
     }
 }
