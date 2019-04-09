@@ -1,11 +1,11 @@
-/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.csprojAssemblyReference.cache
-/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.csproj.CoreCompileInputs.cache
-/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.AssemblyInfoInputs.cache
-/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.AssemblyInfo.cs
 /home/lucas/Documents/netcore/microservices/services/core/bin/Debug/netcoreapp2.2/core.deps.json
 /home/lucas/Documents/netcore/microservices/services/core/bin/Debug/netcoreapp2.2/core.runtimeconfig.json
 /home/lucas/Documents/netcore/microservices/services/core/bin/Debug/netcoreapp2.2/core.runtimeconfig.dev.json
 /home/lucas/Documents/netcore/microservices/services/core/bin/Debug/netcoreapp2.2/core.dll
 /home/lucas/Documents/netcore/microservices/services/core/bin/Debug/netcoreapp2.2/core.pdb
+/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.csprojAssemblyReference.cache
+/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.csproj.CoreCompileInputs.cache
+/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.AssemblyInfoInputs.cache
+/home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.AssemblyInfo.cs
 /home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.dll
 /home/lucas/Documents/netcore/microservices/services/core/obj/Debug/netcoreapp2.2/core.pdb

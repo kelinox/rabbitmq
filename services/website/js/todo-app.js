@@ -1,4 +1,5 @@
 import './todo-item-app.js'
+import { HttpRequest } from '../core/http-request.js'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -40,13 +41,19 @@ class TodoApp extends HTMLElement {
         this.$submitButton.addEventListener('click', this._addTodo.bind(this))
     }
 
-    set todos(value) {
-        this._todos = value
-        this._renderTodos()
+    /**
+     * Every time the element is inserted into the DOM 
+     * we go load the todos associated to the id
+     * we pass the callback function to update the todos list once retrieve from the server
+     */
+    connectedCallback() {
+        const httpRequest = new HttpRequest('https://jsonplaceholder.typicode.com/todos', 'GET', this.updateTodos.bind(this))
+        httpRequest.send()
     }
 
-    get todos() {
-        return this._todos
+    updateTodos(todos) {
+        this._todos = JSON.parse(todos).slice(0, 10)
+        this._renderTodos() 
     }
 
     _renderTodos() {
@@ -54,9 +61,9 @@ class TodoApp extends HTMLElement {
 
         this._todos.forEach((todo, index) => {
             let $todoItem = document.createElement('todo-item')
-            $todoItem.setAttribute('text', todo.text)
+            $todoItem.setAttribute('text', todo.title)
 
-            if(todo.checked) {
+            if (todo.checked) {
                 $todoItem.setAttribute('checked', '')
             }
 
@@ -70,7 +77,7 @@ class TodoApp extends HTMLElement {
     }
 
     _addTodo() {
-        if(!this._todos) this.todos = []
+        if (!this._todos) this.todos = []
         if (this.$input.value.length > 0) {
             this._todos.push({ text: this.$input.value, checked: false })
             this._renderTodos()

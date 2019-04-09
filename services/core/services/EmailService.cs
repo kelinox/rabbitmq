@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microservices.Services.Core.Entities;
+using Microservices.Services.Core.Interface.Services;
 using Microservices.Services.Core.Repositories;
 
 namespace Microservices.Services.Core.Services

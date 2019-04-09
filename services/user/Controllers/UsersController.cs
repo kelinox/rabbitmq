@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using GreenPipes;
 using MassTransit;
 using Microservices.Services.Core.Entities;
-using Microservices.Services.Core.Services;
+using Microservices.Services.Core.Interface.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace user.Controllers
 {

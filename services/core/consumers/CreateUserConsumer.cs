@@ -1,8 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using MassTransit;
 using Microservices.Services.Core.Entities;
-using Microservices.Services.Core.Services;
+using Microservices.Services.Core.Interface.Services;
 
 namespace Microservices.Services.Core.Consumers
 {

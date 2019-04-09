@@ -2,6 +2,7 @@
 using GreenPipes;
 using MassTransit;
 using MassTransit.Util;
+using Microservices.Services.Core.Interface.Services;
 using Microservices.Services.Core.Providers;
 using Microservices.Services.Core.Repositories;
 using Microservices.Services.Core.Services;

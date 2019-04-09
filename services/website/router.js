@@ -17,7 +17,6 @@ class Router {
         if (this._isValidUri(uri)) {
             contentUri = uri
         } else {
-            console.log('not valid')
             contentUri = 'error-app'
         }
         this._addLinkImport(contentUri)

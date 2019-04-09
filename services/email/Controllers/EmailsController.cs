@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microservices.Services.Core.Entities;
-using Microservices.Services.Core.Services;
+using Microservices.Services.Core.Interface.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace email.Controllers
