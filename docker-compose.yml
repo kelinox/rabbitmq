@@ -21,6 +21,15 @@ services:
     depends_on:
         - mssql
         - rabbitmq
+  workoutapi:
+    image: workout
+    build:
+      context: ./services
+      dockerfile: workout.Dockerfile
+    ports:
+      - "8083:80"
+    depends_on:
+        - mssql
   mssql:
     image: "microsoft/mssql-server-linux"
     build:

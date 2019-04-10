@@ -4,18 +4,18 @@ EXPOSE 80
 
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["user/user.csproj", "user/"]
+COPY ["workout/workout.csproj", "workout/"]
 COPY ["core/core.csproj", "core/"]
 COPY ["infrastructure/infrastructure.csproj", "infrastructure/"]
-RUN dotnet restore "./user/user.csproj"
+RUN dotnet restore "./workout/workout.csproj"
 COPY . .
 WORKDIR /src
-RUN dotnet build "./user/user.csproj" -c Debuf -o /app
+RUN dotnet build "./workout/workout.csproj" -c Debuf -o /app
 
 FROM build AS publish
-RUN dotnet publish "./user/user.csproj" -c Debug -o /app
+RUN dotnet publish "./workout/workout.csproj" -c Debug -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "./user.dll"]
+ENTRYPOINT ["dotnet", "./workout.dll"]
