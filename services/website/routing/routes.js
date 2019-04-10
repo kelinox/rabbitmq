@@ -1,10 +1,10 @@
 let routes = [
     {
-        path: '/todos',
-        component: 'todo-app'
+        path: 'workouts/:id',
+        component: 'workouts-app'
     },
     {
-        path: '/home',
+        path: 'home',
         component: 'home-app'
     }
 ]
