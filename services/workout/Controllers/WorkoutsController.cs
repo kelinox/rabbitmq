@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microservices.Services.Core.Entities;
 using Microservices.Services.Core.Interface.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace workout.Controllers

@@ -47,12 +47,13 @@ class TodoApp extends HTMLElement {
      * we pass the callback function to update the todos list once retrieve from the server
      */
     connectedCallback() {
-        const httpRequest = new HttpRequest('https://jsonplaceholder.typicode.com/todos', 'GET', this.updateTodos.bind(this))
+        const httpRequest = new HttpRequest('http://localhost:8083/api/workouts', 'GET', this.updateTodos.bind(this))
         httpRequest.send()
     }
 
     updateTodos(todos) {
         this._todos = JSON.parse(todos).slice(0, 10)
+        console.log(this._todos)
         this._renderTodos() 
     }
 
