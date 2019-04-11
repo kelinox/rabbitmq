@@ -8,7 +8,8 @@ export class HttpRequest {
     send(data = null) {
         const state = this
         this.r.onreadystatechange = function () {
-            if(state.r.readyState != 4 || state.r.status != 200) return;
+            if(state.r.readyState != 4 || state.r.status != 200) return
+            console.log(state.r.responseText)
             state.callback(state.r.responseText)
         }
         this.r.send(data)

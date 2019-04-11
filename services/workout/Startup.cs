@@ -36,16 +36,17 @@ namespace workout
             services.AddTransient<IDbProvider, DbProvider>();
             services.AddTransient<IWorkoutRepository, WorkoutRepository>();
             services.AddTransient<IWorkoutService, WorkoutService>();
+            
+            services.AddCors(options => {
+                options.AddPolicy("AllowAll", builder => {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddCors(options => {
-                options.AddPolicy("AllowAll", builder => {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyHeader();
-                    builder.AllowAnyMethod();
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

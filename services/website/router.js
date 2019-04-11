@@ -52,7 +52,7 @@ class Router {
                 var element = module.element
                 element.setAttribute('id', 'dynamic-component')
                 if (route.hasParameter) {
-                    element.parameter = route.parameter
+                    element.parameter = route
                 }
                 this.app.appendChild(element)
             })
@@ -82,7 +82,7 @@ class Router {
             const path = uri.split('/')[0]
 
             route.route = routes.find((element) => {
-                return element.path.contains('/:id') && element.path.split('/:id')[0] === path
+                return /(\/:id)$/.test(element.path) && element.path.split('/:id')[0] === path
             })
 
             if (route.route) {
@@ -91,7 +91,6 @@ class Router {
 
         } else {
             route.route = routes.find((element) => {
-                console.log(element)
                 return element.path === uri
             })
         }
