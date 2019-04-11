@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using MassTransit;
 using Microservices.Services.Core.Entities;
 using Microservices.Services.Core.Interface.Services;
+using Microservices.Services.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -31,8 +33,8 @@ namespace user.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public async Task<User> Post(User user)
+        [HttpPost("/api/register")]
+        public async Task<User> Register(User user)
         {
             User res = await _userService.AddNewUser(user);
         
@@ -42,6 +44,17 @@ namespace user.Controllers
             await endPoint.Send(res);
 
             return res;
+        }
+
+        [HttpPost]
+        [Route("/api/login")]
+        public async Task<IActionResult> Authenticate(LoginModel model)
+        {
+            string token = await _userService.Authenticate(model);
+            if(!string.IsNullOrEmpty(token)) {
+                return Ok(token);
+            }
+            return BadRequest("Username or password incorrect");
         }
     }
 }

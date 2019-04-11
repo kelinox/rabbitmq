@@ -19,18 +19,37 @@ namespace Microservices.Services.Infrastructure.Repositories
 
         public async Task<User> AddNewUser(User user)
         {
-            string query = @"INSERT INTO [dbo].[Users](Email, Password)
+            string queries = @" SELECT * FROM [dbo].[Users]
+                                WHERE Username = @Username;
+
+                                SELECT * FROM [dbo].[Users]
+                                WHERE Email = @EMail;
+
+                                INSERT INTO [dbo].[Users](Email, Password, Username)
                                 OUTPUT INSERTED.*
-                                VALUES(@Email, @Password)";
+                                VALUES(@Email, @Password, @Username)";
+
             using (IDbConnection conn = _dbProvider.Connection)
             {
                 conn.Open();
                 using (IDbTransaction transaction = conn.BeginTransaction())
                 {
-                    User res = await conn.QuerySingleAsync<User>(query, user, transaction);
-                    transaction.Commit();
-                    return res;
+                    using (var multi = conn.QueryMultiple(queries, user, transaction))
+                    {   
+                        User res = await multi.ReadSingleOrDefaultAsync<User>();
+                        if(!(res is null)) {
+                            throw new DuplicateNameException("Username already exists");
+                        }
+                        res = await multi.ReadSingleOrDefaultAsync<User>();
+                        if(!(res is null)) {
+                            throw new DuplicateNameException("Email already exists");                            
+                        }
+                        res = await multi.ReadSingleAsync<User>();
+                        transaction.Commit();
+                        return res;
+                    }
                 }
+
             }
         }
 

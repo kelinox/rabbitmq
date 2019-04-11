@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microservices.Services.Core.Entities;
+using Microservices.Services.Core.Models;
 
 namespace Microservices.Services.Core.Interface.Services
 {
@@ -8,5 +9,6 @@ namespace Microservices.Services.Core.Interface.Services
     {
         Task<User> AddNewUser(User user);
         Task<IEnumerable<User>> GetAll();
+        Task<string> Authenticate(LoginModel model);
     }
 }
