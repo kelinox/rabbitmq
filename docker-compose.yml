@@ -31,7 +31,7 @@ services:
     depends_on:
         - mssql
   mssql:
-    image: "microsoft/mssql-server-linux"
+    image: "lucas/mssql-server-linux"
     build:
       context: ./database
       dockerfile: Dockerfile

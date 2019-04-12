@@ -23,6 +23,7 @@ namespace workout.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<Workout>> Get()
         {
             return await _workoutService.GetAll();
