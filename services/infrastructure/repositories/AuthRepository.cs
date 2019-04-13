@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Dapper;
 using Microservices.Services.Core.Entities;
@@ -32,12 +33,12 @@ namespace Microservices.Services.Infrastructure.Repositories
             using (IDbConnection conn = _dbProvider.Connection)
             {
                 var user = await conn.QuerySingleOrDefaultAsync<User>(query, new { Username = username, Password = password });
-                if (!(user is null))
+                if (user is null)
                 {
-                    return _tokenProvider.GetToken(user);
+                    throw new AuthenticationException("Incorrect login or password");
                 }
+                return _tokenProvider.GetToken(user);
             }
-            return string.Empty;
         }
     }
 }

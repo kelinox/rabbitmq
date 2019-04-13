@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microservices.Services.Core.Controllers;
 using Microservices.Services.Core.Entities;
 using Microservices.Services.Core.Interface.Services;
+using Microservices.Services.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -13,9 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace workout.Controllers
 {
     [EnableCors("AllowAll")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class WorkoutsController : ControllerBase
+    public class WorkoutsController : BaseController
     {
         private readonly IWorkoutService _workoutService;
 
@@ -30,9 +30,9 @@ namespace workout.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<Workout>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _workoutService.GetAll();
+            return await HandleComputationFailure(_workoutService.GetAll());
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace workout.Controllers
                 Console.Out.WriteLine("User id : " + userId);
                 if (tokenUserId != userId)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Unauthorized access");
+                    return StatusCode(StatusCodes.Status401Unauthorized, Response<string>.Failure("Unauthorized access"));
 
                 }
             }
 
-            return Ok(await _workoutService.GetByUser(userId));
+            return await HandleComputationFailure(_workoutService.GetByUser(userId));
         }
     }
 }

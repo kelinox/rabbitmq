@@ -7,11 +7,17 @@ class Router {
         this.onRouteChange()
     }
 
-    onRouteChange(e) {
-        const hashString = window.location.hash.substring(1)
-        this.loadContent(hashString)
+    /**
+     * Method called when the url changed
+     */
+    onRouteChange() {
+        this.loadContent(window.location.hash.substring(1))
     }
 
+    /**
+     * Method that load the content of the page dynamicly 
+     * @param {string} uri 
+     */
     loadContent(uri) {
         let contentUri;
         if (this._isValidUri(uri)) {
@@ -45,11 +51,11 @@ class Router {
      * If the route has parameter, we set the value of the element's parameter
      * @param {any} route 
      */
-    _importContent({route, hasParameter, parameter}) {
+    _importContent({ route, hasParameter, parameter }) {
         const path = `./components/${route.component}.js`
         import(path)
             .then((module) => {
-                if(!this._isDefined(route.component)) {
+                if (!this._isDefined(route.component)) {
                     window.customElements.define(route.component, module.default)
                 }
                 const element = document.createElement(route.component)
@@ -78,12 +84,8 @@ class Router {
         };
         if (this._uriHasParameters(uri)) {
             route.hasParameter = true
-
-            const path = uri.split('/')[0]
-
-            route.route = routes.find((element) => {
-                return /(\/:id)$/.test(element.path) && element.path.split('/:id')[0] === path
-            })
+ 
+            route.route = this._getRouteFromConfig(uri)
 
             if (route.route) {
                 route.parameter = this._getUriParameter(uri)
@@ -99,9 +101,10 @@ class Router {
 
     /**
      * Get parameter from a URI of type [controller]/[parameter]/[detail]
-     * We split the string by / and then get the second item which will always be the parameter
+     * We split the string by '/' and then get the second item which will always be the parameter
      * Where /[detail] is optionnal
      * @param {string} uri 
+     * @return {string} the parameter of the URI 
      */
     _getUriParameter(uri) {
         return uri.split('/')[1]
@@ -109,9 +112,10 @@ class Router {
 
     /**
      * Check if the URI has a parameter
-     * Every uri like [controller]/[parameter]/[detail] are valid
+     * Every URI like [controller]/[parameter]/[detail] are valid
      * Where /[detail] is optionnal
      * @param {string} uri 
+     * @return {boolean} true if the URI has a parameter
      */
     _uriHasParameters(uri) {
         return /^[a-z]{1,}\/[0-9]{1,}(\/[a-z]{1,})?$/.test(uri)
@@ -122,6 +126,7 @@ class Router {
      * Here we only accept as valid, a URI like [controller]/[parameter]/[detail]
      * Where /[detail] is optionnal
      * @param {string} uri 
+     * @return {boolean} true if the URI valid
      */
     _isValidUri(uri) {
         return /[a-z]{1,}(\/[0-9]{1,})?(\/[a-z]{1,})?/.test(uri)
@@ -134,6 +139,19 @@ class Router {
      */
     _isDefined(elementName) {
         return window.customElements.get(elementName) !== undefined
+    }
+
+    /**
+     * We get the route, from the routes.js file, that match with the URI
+     * @param {string} uri The URI with the parameter
+     * @return {any} return the route 
+     */
+    _getRouteFromConfig(uri) {
+        const path = uri.split('/')[0]
+        return routes.find((element) => {
+            return /(\/:id)$/.test(element.path) && element.path.split('/:id')[0] === path
+        })
+
     }
 }
 

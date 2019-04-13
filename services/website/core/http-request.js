@@ -15,11 +15,16 @@ export class HttpRequest {
             }
             if(state.r.readyState != 4 || state.r.status != 200) {
                 response.success = false
-                response.errorMessage = state.r.responseText
+                response.errorMessage = state.r.statusText          
             }
-            response.data = JSON.parse(state.r.responseText)
+            if(response.success) {
+                console.log('success')
+                console.log(response)
+                response.data = JSON.parse(state.r.responseText)
+            }
             state.callback(response)
         }
+        
         this.r.send(data)
     }
 }
