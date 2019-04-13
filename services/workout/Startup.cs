@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,16 +54,30 @@ namespace workout
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    var base64 = "b3Oh9TaOEG+pEQguLbEJXBZnIlkXGjXHF2IFivJcYeh7YAQ3qwRAOLFNb6B4HBGVsEhkX3aRWhQbQmJrpTinwmfFE3xZHX8Bj2pamvm42nFbAt6nvJUnY4AdcEJE+rIVGM7YOZgLSVmaseXIxDM5C5+ELg==";
-
-                    Console.Out.WriteLine(base64);
-                    var signinKey = Convert.FromBase64String(base64);
+                    var signinKey = Convert.FromBase64String(Configuration["Jwt:SigninSecret"]);
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(signinKey)
+                    };
+                    options.SaveToken = true;
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = (context) =>
+                        {
+                            var accessToken = context.SecurityToken as JwtSecurityToken;
+                            if (!(accessToken is null))
+                            {
+                                ClaimsIdentity identity = context.Principal.Identity as ClaimsIdentity;
+                                if (!(identity is null))
+                                {
+                                    identity.AddClaim(new Claim("access_token", accessToken.RawData));
+                                }
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
@@ -81,6 +97,7 @@ namespace workout
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseCors("AllowAll");
             app.UseAuthentication();
 

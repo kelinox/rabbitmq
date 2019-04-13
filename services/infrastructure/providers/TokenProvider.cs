@@ -6,19 +6,29 @@ using System.Security.Cryptography;
 using System.Text;
 using Microservices.Services.Core.Entities;
 using Microservices.Services.Core.Providers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Microservices.Services.Infrastructure.Providers
 {
     public class TokenProvider : ITokenProvider
     {
+        private readonly IConfiguration _config;
+
+        public TokenProvider(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        /// <summary>
+        /// Generate a JwtToken for a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public string GetToken(User user)
         {
-            var base64 = "b3Oh9TaOEG+pEQguLbEJXBZnIlkXGjXHF2IFivJcYeh7YAQ3qwRAOLFNb6B4HBGVsEhkX3aRWhQbQmJrpTinwmfFE3xZHX8Bj2pamvm42nFbAt6nvJUnY4AdcEJE+rIVGM7YOZgLSVmaseXIxDM5C5+ELg==";
-
-            Console.Out.WriteLine(base64);
-            var signinKey = Convert.FromBase64String(base64);
-            var expiryDuration = 5;
+            var signinKey = Convert.FromBase64String(_config["Jwt:SigninSecret"]);
+            var expiryDuration = int.Parse(_config["Jwt:ExpiryDuration"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = null,
@@ -28,8 +38,7 @@ namespace Microservices.Services.Infrastructure.Providers
                 Expires = DateTime.UtcNow.AddMinutes(expiryDuration),
                 Subject = new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim("userId", user.Id.ToString()),
-                    new Claim("username", user.Email)
+                    new Claim("UserId", user.Id.ToString())
                 }),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(signinKey),

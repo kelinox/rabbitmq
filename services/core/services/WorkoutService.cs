@@ -19,5 +19,10 @@ namespace Microservices.Services.Core.Services
         {
             return await _workoutRepository.GetAll();
         }
+
+        public async Task<IEnumerable<Workout>> Get(int userId) 
+        {
+            return await _workoutRepository.Get(userId);
+        }
     }
 }

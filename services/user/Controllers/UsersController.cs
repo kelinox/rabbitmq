@@ -32,7 +32,11 @@ namespace user.Controllers
             return await _userService.GetAll();
         }
 
-        // POST api/values
+        /// <summary>
+        /// Register a user in the database
+        /// </summary>
+        /// <param name="user">The data needed to register the email</param>
+        /// <returns>The newly created user</returns>
         [HttpPost("/api/register")]
         public async Task<User> Register(User user)
         {
@@ -46,6 +50,11 @@ namespace user.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Authenticate a user with its password and username
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>The JwtToken issued if the user is authenticate, otherwise bad request</returns>
         [HttpPost]
         [Route("/api/login")]
         public async Task<IActionResult> Authenticate(LoginModel model)

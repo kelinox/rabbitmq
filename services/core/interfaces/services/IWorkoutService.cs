@@ -7,5 +7,6 @@ namespace Microservices.Services.Core.Interface.Services
     public interface IWorkoutService 
     {
         Task<IEnumerable<Workout>> GetAll();
+        Task<IEnumerable<Workout>> Get(int userId);
     }
 }

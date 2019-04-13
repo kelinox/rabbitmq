@@ -17,7 +17,11 @@ namespace email.Controllers
             _emailService = emailService;
         }
 
-        // GET api/values
+
+        /// <summary>
+        /// List all the emails in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<Email>> Get()
         {

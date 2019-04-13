@@ -19,6 +19,13 @@ namespace Microservices.Services.Infrastructure.Repositories
             _tokenProvider = tokenProvider;
         }
 
+        /// <summary>
+        /// Authenticate a user with its username and password
+        /// And return a JwtToken if the user had been authenticated
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>The JwtToken of the user, empty if user is not authenticated</returns>
         public async Task<string> Authenticate(string username, string password)
         {
             string query = @"SELECT * FROM [dbo].[Users] WHERE Username = @Username AND Password = @Password";

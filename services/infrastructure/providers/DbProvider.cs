@@ -15,6 +15,10 @@ namespace Microservices.Services.Infrastructure.Providers
             _config = config;
         }
 
+        /// <summary>
+        /// Get or set the db connection of a microservice
+        /// </summary>
+        /// <value></value>
         public IDbConnection Connection
         {
             get { return new SqlConnection(_config.GetConnectionString("DapperConnectionString")); }

@@ -21,6 +21,10 @@ namespace Microservices.Services.Infrastructure.Repositories
             _dbProvider = dbProvider;
         }
         
+        /// <summary>
+        /// List all the emails in tha database
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Email>> GetAllAsync()
         {
             string query = "SELECT * FROM [dbo].[Emails]";
@@ -32,6 +36,11 @@ namespace Microservices.Services.Infrastructure.Repositories
             }
         }
 
+        /// <summary>
+        /// Send a welcome email to a user when he register on the website
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>The id of the email sent</returns>
         public async Task<int> SendEmailNewUser(User user)
         {
             string query = @"INSERT INTO [dbo].[Emails]([From], [To], [Body], [UserId])

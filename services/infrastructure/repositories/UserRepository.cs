@@ -17,6 +17,14 @@ namespace Microservices.Services.Infrastructure.Repositories
             _dbProvider = dbProvider;
         }
 
+        /// <summary>
+        /// Add a new user in the database
+        /// We check if the username is not already taken 
+        /// And we also check the email
+        /// If one of them is already taken we throw an exception
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>The newly inserted user</returns>
         public async Task<User> AddNewUser(User user)
         {
             string queries = @" SELECT * FROM [dbo].[Users]
@@ -53,6 +61,10 @@ namespace Microservices.Services.Infrastructure.Repositories
             }
         }
 
+        /// <summary>
+        /// List all the users in the database
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<User>> GetAll()
         {
             string query = "SELECT * FROM [dbo].[Users]";
