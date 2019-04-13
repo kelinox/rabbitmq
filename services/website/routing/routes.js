@@ -6,6 +6,10 @@ let routes = [
     {
         path: 'home',
         component: 'home-app'
+    },
+    {
+        path: 'login',
+        component: 'login-app'
     }
 ]
 

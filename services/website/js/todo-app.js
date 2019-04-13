@@ -53,7 +53,6 @@ class TodoApp extends HTMLElement {
 
     updateTodos(todos) {
         this._todos = JSON.parse(todos).slice(0, 10)
-        console.log(this._todos)
         this._renderTodos() 
     }
 

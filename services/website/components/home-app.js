@@ -11,5 +11,4 @@ class HomeApp extends HTMLElement {
     }
 }
 
-window.customElements.define('home-app', HomeApp);
-export let element = document.createElement('home-app');
+export default HomeApp

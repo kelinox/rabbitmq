@@ -45,22 +45,22 @@ class Router {
      * If the route has parameter, we set the value of the element's parameter
      * @param {any} route 
      */
-    _importContent(route) {
-        const path = `./components/${route.route.component}.js`
+    _importContent({route, hasParameter, parameter}) {
+        const path = `./components/${route.component}.js`
         import(path)
             .then((module) => {
-                var element = module.element
+                if(!this._isDefined(route.component)) {
+                    window.customElements.define(route.component, module.default)
+                }
+                const element = document.createElement(route.component)
                 element.setAttribute('id', 'dynamic-component')
-                if (route.hasParameter) {
-                    element.parameter = route
+                if (hasParameter) {
+                    element.parameter = parameter
                 }
                 this.app.appendChild(element)
             })
             .catch((e) => {
-                var errorDiv = document.createElement('div')
-                errorDiv.setAttribute('id', 'dynamic-component')
-                errorDiv.innerText = e.toString()
-                this.app.appendChild(errorDiv)
+                console.error(e)
             })
     }
 
@@ -125,6 +125,15 @@ class Router {
      */
     _isValidUri(uri) {
         return /[a-z]{1,}(\/[0-9]{1,})?(\/[a-z]{1,})?/.test(uri)
+    }
+
+    /**
+     * Check if a custom element has already been defined
+     * @param {string} elementName element to check
+     * @returns {boolean} true if already defined, false if not
+     */
+    _isDefined(elementName) {
+        return window.customElements.get(elementName) !== undefined
     }
 }
 

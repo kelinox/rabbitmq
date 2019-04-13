@@ -7,6 +7,6 @@ namespace Microservices.Services.Core.Repositories
     public interface IWorkoutRepository
     {
         Task<IEnumerable<Workout>> GetAll();
-        Task<IEnumerable<Workout>> Get(int userId);
+        Task<IEnumerable<Workout>> GetByUser(int userId);
     }
 }

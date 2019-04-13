@@ -61,7 +61,7 @@ namespace workout.Controllers
                 }
             }
 
-            return Ok(await _workoutService.Get(userId));
+            return Ok(await _workoutService.GetByUser(userId));
         }
     }
 }
