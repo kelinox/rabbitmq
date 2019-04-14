@@ -46,8 +46,8 @@ class WorkoutsApp extends HTMLElement {
     }
 
     _fetchWorkouts() {
-        // const httpRequest = new HttpRequest('http://localhost:8083/api/workouts', 'GET', this.updateWorkouts.bind(this))
-        // httpRequest.send()
+        const httpRequest = new HttpRequest('http://localhost:8083/api/workouts', 'GET', this.updateWorkouts.bind(this))
+        httpRequest.send()
     }
 
     /**

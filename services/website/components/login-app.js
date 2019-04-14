@@ -1,5 +1,6 @@
 import { HttpRequest } from '../core/http-request.js'
 import '../shared/button-app.js'
+import '../shared/alert-app.js'
 
 //#region Template
 const template = document.createElement('template')
@@ -8,6 +9,7 @@ template.innerHTML = `
     .container-login {
         width:400px;
         margin:auto;
+        margin-top: 40px;
     }
 
     .flex {
@@ -31,6 +33,9 @@ template.innerHTML = `
         border-bottom: 2px solid #f5f5f5;
         width:100%;
         margin-bottom:20px;
+        padding-top:5px;
+        padding-bottom:5px;
+        font-size:16px;
     }
 
     input:focus {
@@ -52,8 +57,7 @@ template.innerHTML = `
 </style>
 
 <div class="container-login">
-    <form class="form-signin" action="">
-        <div id="error"></div>
+    <form class="form-signin" action="" method="POST">
         <label for="username_input">Username</label>
         <input type="text" id="username_input" class="form-control" required>
         <label for="password_input">Password</label>
@@ -77,6 +81,13 @@ class LoginApp extends HTMLElement {
         this.$username = this._shadowRoot.querySelector('#username_input')
         this.$password = this._shadowRoot.querySelector('#password_input')
 
+        this.$form = this._shadowRoot.querySelector('form')
+
+        this.$alert = document.createElement('alert-app')
+        this.$alert.show = false
+
+        this.$form.insertBefore(this.$alert, this.$form.firstChild)
+
         this.$flex = this._shadowRoot.querySelector('.flex')
 
         this.$button = document.createElement('button-app')
@@ -99,12 +110,21 @@ class LoginApp extends HTMLElement {
      * @param {event} e event of the action, allow not to refresh the page on submit
      */
     _login(e) {
-        e.preventDefault()
         const username = this.$username.value
         const password = this.$password.value
 
+        if(username.length < 1) {
+            this._showAlert('#f8d7da', '#721c24', 'Username is required')
+            return
+        }
+
+        if(password.length < 1) {
+            this._showAlert('#f8d7da', '#721c24', 'Password is required')
+            return
+        }
+
         const http = new HttpRequest('http://localhost:8081/api/login', 'POST', this._logged.bind(this))
-        http.send({'username': username, 'password': password})
+        http.send({ 'username': username, 'password': password })
     }
 
     /**
@@ -116,19 +136,21 @@ class LoginApp extends HTMLElement {
      * @param {string} data the jwt token returned by the API
      * @param {string} errorMessage the error message if the API call failed 
      */
-    _logged({success, data, errorMessage}) {
-        if(success) {
-            console.log(data)
+    _logged({ success, data, errorMessage }) {
+        if (success) {
+            this.$alert.show = false
             localStorage.setItem('access_token', data)
-            window.location= '#home'
+            window.location = '#home'
         } else {
-            this.$error.classList.add('display')
-            if(errorMessage.Length > 0){
-                this.$error.innerHTML = errorMessage
-            } else {
-                this.$error.innerHTML = "Server is not responding, try later"
-            }
+            this._showAlert('#f8d7da', '#721c24', errorMessage)
         }
+    }
+
+    _showAlert(backgroundColor, color, text) {
+        this.$alert.setAttribute('color', color)
+        this.$alert.setAttribute('background', backgroundColor)
+        this.$alert.setAttribute('text', text)
+        this.$alert.show = true
     }
 }
 //#endregion

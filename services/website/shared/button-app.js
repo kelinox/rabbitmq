@@ -18,6 +18,7 @@ template.innerHTML = `
 
 //#endregion
 
+//#region Class
 class ButtonApp extends HTMLElement {
 
     constructor() {
@@ -53,5 +54,6 @@ class ButtonApp extends HTMLElement {
         }
     }
 }
+//#endregion
 
 window.customElements.define('button-app', ButtonApp)

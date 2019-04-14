@@ -12,20 +12,29 @@ export class HttpRequest {
             let response = {
                 success: true,
                 data: null,
-                errorMessage: null
+                errorMessage: ''
             }
-            if(state.r.readyState != 4 || state.r.status != 200) {
-                response.success = false
-                response.errorMessage = state.r.statusText          
-            }
-            if(response.success) {
-                console.log('success')
-                console.log(response)
-                response.data = JSON.parse(state.r.responseText)
+            if (state.r.readyState == 4) {
+                if (state.r.status != 200) {
+                    state._handleError(state.r, response)
+                }
+                else {
+                    response.data = JSON.parse(this.r.responseText)
+                }
             }
             state.callback(response)
         }
-        console.log(data)
         this.r.send(JSON.stringify(data))
+    }
+
+    _handleError(request, response) {
+        response.success = false
+        switch (request.status) {
+            case 0:
+                response.errorMessage = "Server is not responding, try again later"
+                break;        
+            default:
+                break;
+        }
     }
 }
