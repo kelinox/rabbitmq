@@ -3,6 +3,7 @@ export class HttpRequest {
         this.r = new XMLHttpRequest()
         this.r.open(method, url, true)
         this.callback = callback
+        this.r.setRequestHeader('Content-Type', 'application/json')
     }
 
     send(data = null) {
@@ -24,7 +25,7 @@ export class HttpRequest {
             }
             state.callback(response)
         }
-        
-        this.r.send(data)
+        console.log(data)
+        this.r.send(JSON.stringify(data))
     }
 }

@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace workout.Controllers
 {
-    [EnableCors("AllowAll")]
     public class WorkoutsController : BaseController
     {
         private readonly IWorkoutService _workoutService;

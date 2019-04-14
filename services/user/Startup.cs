@@ -36,6 +36,14 @@ namespace user
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
 
+            services.AddCors(options => {
+                options.AddPolicy("AllowAll", policy => {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);            
 
             services.AddMassTransit(x => {
@@ -62,6 +70,8 @@ namespace user
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseMvc();
 

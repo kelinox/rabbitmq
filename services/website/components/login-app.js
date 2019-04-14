@@ -1,14 +1,40 @@
 import { HttpRequest } from '../core/http-request.js'
+import '../shared/button-app.js'
 
+//#region Template
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
-    @import "../bootstrap/css/bootstrap.min.css"
-</style>
+    .container-login {
+        width:400px;
+        margin:auto;
+    }
 
-<style>
-    .not-valid {
-        border: 1px solid red;
+    .flex {
+        display: flex;
+        margin-top: 40px;
+        align-items: center;
+    }
+
+    .flex-child {
+        flex: 1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight:700;
+    }
+
+    input {
+        border: none;
+        border-bottom: 2px solid #f5f5f5;
+        width:100%;
+        margin-bottom:20px;
+    }
+
+    input:focus {
+        outline:none;
     }
 
     #error {
@@ -18,28 +44,29 @@ template.innerHTML = `
     .display {
         display: block !important;
     }
+
+    a {
+        color: #d4d4d4;
+    }
+
 </style>
 
-<div class="container mt-5">
-    <div class="row justify-content-md-center">
-        <div class="col-md-auto">
-            <form class="form-signin" action="">
-                <div id="error"></div>
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <input type="text" id="username_input" class="form-control" placeholder="Username" required>
-                <input type="password" id="password_input" class="form-control" placeholder="Password" required>
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-            </form>
+<div class="container-login">
+    <form class="form-signin" action="">
+        <div id="error"></div>
+        <label for="username_input">Username</label>
+        <input type="text" id="username_input" class="form-control" required>
+        <label for="password_input">Password</label>
+        <input type="password" id="password_input" class="form-control" required>
+        <div class="flex">
+            <a class="flex-child" href="">Forget password</a>
         </div>
-    </div>
+    </form>
 </div>
 `
+//#endregion
 
+//#region Class
 class LoginApp extends HTMLElement {
 
     constructor() {
@@ -50,8 +77,16 @@ class LoginApp extends HTMLElement {
         this.$username = this._shadowRoot.querySelector('#username_input')
         this.$password = this._shadowRoot.querySelector('#password_input')
 
-        this.$button = this._shadowRoot.querySelector('button')
-        this.$button.addEventListener('click', (e) => this._login(e))
+        this.$flex = this._shadowRoot.querySelector('.flex')
+
+        this.$button = document.createElement('button-app')
+        this.$button.setAttribute('color', 'white')
+        this.$button.setAttribute('background', '#3178f8')
+        this.$button.setAttribute('text', 'LOGIN')
+
+        this.$button.addEventListener('onLogin', (e) => this._login(e))
+
+        this.$flex.appendChild(this.$button)
 
         this.$error = this._shadowRoot.querySelector('#error')
 
@@ -96,5 +131,6 @@ class LoginApp extends HTMLElement {
         }
     }
 }
+//#endregion
 
 export default LoginApp

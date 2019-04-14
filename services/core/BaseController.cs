@@ -1,11 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using Microservices.Services.Core.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Microservices.Services.Core.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class BaseController : ControllerBase
